@@ -2,5 +2,4 @@ amazoncaptcha==0.5.11
 beautifulsoup4==4.12.2
 bs4==0.0.1
 playwright==1.40.0
-requests==2.30.0
 openpyxl==3.1.2
