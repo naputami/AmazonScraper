@@ -14,16 +14,42 @@ class AmazonScraper:
         self.url = 'https://www.amazon.com/'
     
     def find_captcha(self, html):
+        """
+        Find the captcha image in the given HTML using BeautifulSoup.
+
+        Parameters:
+            self (obj): The object instance
+            html (str): The HTML content to search
+
+        Returns:
+            str: The URL of the captcha image or None if not found
+        
+        """
+
         soup = BeautifulSoup(html, 'html.parser')
         result = soup.find('div', class_='a-row a-text-center').find('img').get('src')
         return result
     
     def extract_search_items(self, html):
+        """
+        Extracts search items from the given HTML using BeautifulSoup and returns the page results.
+        """
         soup = BeautifulSoup(html, 'html.parser')
         page_results = soup.find_all('div', {'data-component-type': 's-search-result'})
         return page_results
     
     def get_max_page(self, html):
+        """
+        Get the maximum page number from the provided HTML content.
+
+        Args:
+            self: The object itself.
+            html (str): The HTML content to parse.
+
+        Returns:
+            int: The maximum page number.
+        """
+
         soup = BeautifulSoup(html, 'html.parser')
         max_page = soup.find('span', class_='s-pagination-item s-pagination-disabled')
         
@@ -40,6 +66,18 @@ class AmazonScraper:
         return int(max_page)
     
     def parsing_product_item(self, page_results):
+        """
+        Parses the product items from the given page results and returns a list of dictionaries
+        containing the product title, thumbnail link, URL, rating, and price in USD.
+        
+        Args:
+            self: The class instance
+            page_results (list): A list of BeautifulSoup elements representing the product items
+        
+        Returns:
+            list: A list of dictionaries containing the parsed product information
+        """
+
         results = []
 
         for item in page_results:
@@ -71,6 +109,16 @@ class AmazonScraper:
         return results
 
     def input_to_xlsx(self, parsed_products, file_name):
+        """
+        Converts the parsed_products to an xlsx file and saves it with the specified file_name.
+
+        Parameters
+        - parsed_products: The list of parsed products to be converted to xlsx.
+        - file_name: The name of the xlsx file to be saved.
+        
+        Returns
+        - None
+        """
         wb = openpyxl.Workbook()
         ws = wb.active
 
@@ -86,6 +134,17 @@ class AmazonScraper:
 
 
     def input_to_postgresdb(self, parsed_products):
+        """
+        Function to insert parsed_products into a PostgreSQL database.
+        
+        Parameters:
+        - self: the instance of the class
+        - parsed_products: a list of parsed product data
+        
+        Returns:
+        - None
+        """
+
         try:
             global engine
 
@@ -115,6 +174,16 @@ class AmazonScraper:
             
 
     def run(self, keywords, file_name):
+        """
+	    Run the web scraping process to extract search items based on the given keywords and save the results to an xlsx file and a Postgres database.
+	    
+        Parameters
+	    - keywords: The search keywords to be used for scraping.
+	    - file_name: The name of the xlsx file to save the search results.
+	    
+        Returns:
+        - None
+	    """
 
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=False)
