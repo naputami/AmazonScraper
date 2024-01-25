@@ -16,3 +16,20 @@ Scraping items on amazon search page
 - Solving Captcha automatically using AmazonCaptcha and Playwright
 - Inputing scraped data to xlsx file
 - Inputting scraped data to PostgreSQL database
+
+## How to run this program
+1. Activate python venv
+2. Install requirements
+```
+pip install -r requirements.txt
+```
+3. Create .env file for these variables
+```
+POSTGRES_DB
+POSTGRES_USER
+POSTGRES_PASSWORD
+```
+4. Run `run.py` script
+```
+python src/run.py
+```
