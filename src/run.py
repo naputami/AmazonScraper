@@ -5,10 +5,12 @@ if __name__ == "__main__":
     input_keywords = input("Enter keywords: ")
     input_file_name = input("Enter file name: ")
 
+    # prevent empty keywords and file name
     if input_keywords == '' or input_file_name == '':
         print("Please enter keywords and file name")
         exit()
     else:
+        # check if xlsx file
         if 'xlsx' not in input_file_name.split('.'):
             print("Please enter xlsx file format")
         else:
